@@ -21,7 +21,7 @@
 
 <svelte:head><title>By Dim Light...</title></svelte:head>
 
-<div id="container" bind:this={holder}>
+<div id="container" class="dim" bind:this={holder}>
 	<img width="1920" height="2194" src="/azathoth.jpg" alt="azathoth" />
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
@@ -33,7 +33,7 @@
 </div>
 
 <style>
-	:global(body) {
+	:global(body:has(.dim)) {
 		background: black;
 		overflow: hidden;
 	}

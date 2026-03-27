@@ -34,6 +34,8 @@
 	});
 </script>
 
+<svelte:head><title>Roster</title></svelte:head>
+
 <main>
 	<ul class="outer">
 		{#each players as { name, callsign, mech, image } (name)}

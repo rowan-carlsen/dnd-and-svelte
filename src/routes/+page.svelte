@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from "$app/paths";
+	import callOfCthulhu from "$lib/assets/bg/coc.jpg";
 
 	let currentSlide = $state(0);
 	const totalSlides = 7;
@@ -27,104 +28,89 @@
 
 <svelte:window onkeydown={handleKeydown} onclick={nextSlide} />
 
-<main>
-	{#if currentSlide === 0}
-		<div class="slide">
-			<h1>D&D&Svelte: Svelte mini-apps to enhance your tabletop games</h1>
-		</div>
-	{:else if currentSlide === 1}
-		<div class="slide">
-			<h2>What This Talk Is (and Isn't!)</h2>
-			<ul>
-				<li>More inspiration, less "how-to"</li>
-				<li>Made by a Svelte fan, not a Svelte master</li>
-				<li>"Toys", props, and accessories, NOT a VTT or essential utility</li>
-				<li>Not monetization of your hobby, not the next startup idea, not a hustle!</li>
-			</ul>
-		</div>
+<main style={`--bgImage: url(${callOfCthulhu})`}>
+	<h1>D&D&Svelte: Svelte mini-apps to enhance your tabletop games</h1>
+	{#if currentSlide === 1}
+		<h2>What This Talk Is (and Isn't!)</h2>
+		<ul>
+			<li>More inspiration, less "how-to"</li>
+			<li>Made by a Svelte fan, not a Svelte master</li>
+			<li>"Toys", props, and accessories, NOT a VTT or essential utility</li>
+			<li>Not monetization of your hobby, not the next startup idea, not a hustle!</li>
+		</ul>
 	{:else if currentSlide === 2}
-		<div class="slide">
-			<h2>Why Make Mini-Apps? (And how do they fit on a tabletop??)</h2>
-			<ul>
-				<li>
-					Uh...it's fun? [We probably all enjoy web dev to some degree, but making banking websites
-					is a lot less "fun" than working on a cool idea you had for your game. And it lets you
-					pretend to be a ]
-				</li>
-			</ul>
-		</div>
+		<h2>Why Make Mini-Apps? (And how do they fit on a tabletop??)</h2>
+		<ul>
+			<li>
+				Uh...it's fun? [We probably all enjoy web dev to some degree, but making banking websites is
+				a lot less "fun" than working on a cool idea you had for your game. And it lets you pretend
+				to be a ]
+			</li>
+		</ul>
 	{:else if currentSlide === 3}
-		<div class="slide">
-			<h2>OK, But Why Svelte?</h2>
-			<ul>
-				<li>Quick, easy spin up for disposable mini-apps</li>
-				<li>
-					No need for things Svelte ecosystem is weaker in - like sophisticated UI libraries or data
-					management frameworks
-				</li>
-				<li>Instant config with adapters like netlify, vercel, static (for GitHub Pages, e.g.)</li>
-			</ul>
-		</div>
+		<h2>OK, But Why Svelte?</h2>
+		<ul>
+			<li>Quick, easy spin up for disposable mini-apps</li>
+			<li>
+				No need for things Svelte ecosystem is weaker in - like sophisticated UI libraries or data
+				management frameworks
+			</li>
+			<li>Instant config with adapters like netlify, vercel, static (for GitHub Pages, e.g.)</li>
+		</ul>
 	{:else if currentSlide === 4}
-		<div class="slide">
-			<h2>Something about AI</h2>
-			<ul>
-				<li>Nope! Not this time.</li>
-			</ul>
-		</div>
+		<h2>Something about AI</h2>
+		<ul>
+			<li>Nope! Not this time.</li>
+		</ul>
 	{:else if currentSlide === 5}
-		<div class="slide">
-			<h2>Ways to Interface With Your Game(s)</h2>
-			<ul>
-				<li>
-					<strong>Landing Pages!</strong>
-					<ul class="sub-list">
-						<li>Think Character Rosters, Lore your players won't read, maps</li>
-					</ul>
-				</li>
-				<li>
-					<strong>Puzzles/mini-games!</strong>
-					<ul class="sub-list">
-						<li>
-							Keep the scope very small - 5 minutes of interaction is usually enough. This is NOT
-							about getting a great RoI of time spent.
-						</li>
-					</ul>
-				</li>
-				<li>
-					<strong>Interactive visuals!</strong>
-					<ul class="sub-list">
-						<li>
-							Even tiny interactions are pretty spiffy when you're using your imagination to begin
-							with. Hover effects, anything that feels like a video game
-						</li>
-					</ul>
-				</li>
-				<li>
-					<strong>(Hard mode) Apps for your players to actually use!</strong>
-					<ul class="sub-list">
-						<li>
-							MUST be mobile first, and may need websockets or at least aggressive polling if there
-							is shared state.
-						</li>
-						<li>
-							Aim for a shared tablet instead of each player's phone - phones can be a hazard to
-							player engagement
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
+		<h2>Ways to Interface With Your Game(s)</h2>
+		<ul>
+			<li>
+				<strong>Landing Pages!</strong>
+				<ul class="sub-list">
+					<li>Think Character Rosters, Lore your players won't read, maps</li>
+				</ul>
+			</li>
+			<li>
+				<strong>Puzzles/mini-games!</strong>
+				<ul class="sub-list">
+					<li>
+						Keep the scope very small - 5 minutes of interaction is usually enough. This is NOT
+						about getting a great RoI of time spent.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<strong>Interactive visuals!</strong>
+				<ul class="sub-list">
+					<li>
+						Even tiny interactions are pretty spiffy when you're using your imagination to begin
+						with. Hover effects, anything that feels like a video game
+					</li>
+				</ul>
+			</li>
+			<li>
+				<strong>(Hard mode) Apps for your players to actually use!</strong>
+				<ul class="sub-list">
+					<li>
+						MUST be mobile first, and may need websockets or at least aggressive polling if there is
+						shared state.
+					</li>
+					<li>
+						Aim for a shared tablet instead of each player's phone - phones can be a hazard to
+						player engagement
+					</li>
+				</ul>
+			</li>
+		</ul>
 	{:else if currentSlide === 6}
-		<div class="slide">
-			<h2>Walkthrough of stuff I've made</h2>
-			<ul>
-				<li>Start with TBD/Proof of concept stuff - NYC map and shadow puzzle</li>
-				<li>Move into 'cute' visuals - dim light and mudross remnants map</li>
-				<li>End with 'good' finished products, block puzzle and missiong-briefing</li>
-				<li><a href={resolve("/menu")}>Show me the goods!</a></li>
-			</ul>
-		</div>
+		<h2>Walkthrough of stuff I've made</h2>
+		<ul>
+			<li>Start with TBD/Proof of concept stuff - NYC map and shadow puzzle</li>
+			<li>Move into 'cute' visuals - dim light and mudross remnants map</li>
+			<li>End with 'good' finished products, block puzzle and missiong-briefing</li>
+			<li><a href={resolve("/menu")}>Show me the goods!</a></li>
+		</ul>
 	{/if}
 
 	<div class="controls">
@@ -152,39 +138,23 @@
 
 <style>
 	main {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
 		min-height: 100vh;
 		padding: 2rem;
-		background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+		background-color: black;
+		background-image: var(--bgImage);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: contain;
 		color: white;
-		cursor: pointer;
 		font-family:
 			system-ui,
 			-apple-system,
 			sans-serif;
 	}
 
-	.slide {
-		max-width: 900px;
-		width: 100%;
-		text-align: left;
-		padding: 3rem;
-		background: rgba(255, 255, 255, 0.1);
-		backdrop-filter: blur(10px);
-		border-radius: 1rem;
-		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-		min-height: 400px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-	}
-
 	h1 {
 		font-size: 3rem;
-		margin: 0;
+		margin: 1rem 2rem;
 		line-height: 1.2;
 		text-align: center;
 	}
@@ -232,7 +202,7 @@
 		color: white;
 		border-radius: 0.5rem;
 		cursor: pointer;
-		transition: all 0.2s;
+		transition: all 0.15s;
 		font-weight: 600;
 	}
 

@@ -2,7 +2,7 @@
 	import { resolve } from "$app/paths";
 </script>
 
-<nav>
+<nav class="mission">
 	<ul>
 		<li><a href={resolve("/mission-briefing")}>MISSION</a></li>
 		<li><a href={resolve("/mission-briefing/crew")}>CREW</a></li>
@@ -11,7 +11,7 @@
 <slot />
 
 <style>
-	:global(body) {
+	:global(body:has(.mission)) {
 		color: white;
 		background-color: #000;
 		font-family: "Rajdhani", sans-serif;

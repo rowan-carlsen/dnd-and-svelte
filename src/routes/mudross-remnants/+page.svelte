@@ -1,5 +1,7 @@
+<svelte:head><title>Ruins of the Empire</title></svelte:head>
+
 <div style="color: transparent; position: absolute;">font load</div>
-<div id="map-outer">
+<div class="remnants" id="map-outer">
 	<img src="Mudross-Remnants.jpg" width="1024" height="768" alt="mudross map" />
 	<div class="marker" id="arca">
 		<div class="description">
@@ -26,7 +28,7 @@
 <style>
 	@import url("https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap");
 
-	:global(body) {
+	:global(body:has(.remnants)) {
 		background: black;
 	}
 	* {

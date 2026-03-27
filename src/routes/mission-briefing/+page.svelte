@@ -69,6 +69,8 @@
 	});
 </script>
 
+<svelte:head><title>Mission Briefing</title></svelte:head>
+
 <main class:visible={ready}>
 	<select>
 		<option value="Mission 1">Mission 1</option>

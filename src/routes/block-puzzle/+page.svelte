@@ -1,6 +1,13 @@
-<script>
+<script lang="ts">
 	import { crossfade } from "svelte/transition";
 	import { fade } from "svelte/transition";
+
+	type Block = {
+		coords: number[];
+		letter: string;
+		blank?: boolean;
+	};
+
 	const [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200),
 
@@ -19,7 +26,7 @@
 	});
 	const blank = { coords: [3, 3], letter: "", blank: true };
 	let done = $state(false);
-	const grid = $state([
+	const grid: Block[] = $state([
 		{
 			coords: [1, 3],
 			letter: "o"
@@ -87,13 +94,13 @@
 		}
 	]);
 
-	function canMove(block) {
+	function canMove(block: Block) {
 		return (
 			Math.abs(block.coords[0] - blank.coords[0]) + Math.abs(block.coords[1] - blank.coords[1]) ===
 			1
 		);
 	}
-	function move(block) {
+	function move(block: Block) {
 		if (!done && canMove(block)) {
 			[block.coords, blank.coords] = [blank.coords, block.coords];
 			checkIfDone();
@@ -104,7 +111,7 @@
 		for (let y = 1; y < 3; y++) {
 			for (let x = 1; x < 5; x++) {
 				const letterAt = grid.find((entry) => entry.coords[0] === x && entry.coords[1] === y);
-				result.push(letterAt.letter);
+				result.push(letterAt?.letter ?? "");
 			}
 		}
 		if (result.join("") === "opendoor") {
@@ -113,7 +120,9 @@
 	}
 </script>
 
-<main>
+<svelte:head><title>Block Puzzle</title></svelte:head>
+
+<main class="blocks">
 	<h1>Door Puzzle</h1>
 	<div id="container">
 		{#each grid as block, i (i)}
@@ -142,10 +151,10 @@
 </main>
 
 <style>
-	:global(html) {
+	:global(html:has(.blocks)) {
 		height: 100%;
 	}
-	:global(body) {
+	:global(body:has(.blocks)) {
 		min-height: 100%;
 		padding: 0;
 		margin: 0;

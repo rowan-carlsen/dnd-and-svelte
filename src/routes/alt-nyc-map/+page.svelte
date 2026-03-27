@@ -2,7 +2,9 @@
 	import BaseMap from "$lib/BaseMap.svelte";
 </script>
 
-<main>
+<svelte:head><title>Not York City</title></svelte:head>
+
+<main class="nyc">
 	<BaseMap />
 </main>
 
@@ -12,12 +14,12 @@
 		width: 100%;
 		height: 100%;
 	}
-	:global(body) {
+	:global(body:has(.nyc)) {
 		background-color: #00008baa;
 		padding: 0;
 		height: 100%;
 	}
-	:global(html) {
+	:global(html:has(.nyc)) {
 		height: 100vh;
 		overflow: hidden;
 	}
