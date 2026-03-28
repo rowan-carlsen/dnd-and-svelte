@@ -15,9 +15,16 @@
 		subtitle?: string;
 		bullets: BulletItem[];
 		background: string;
+		coverSlide?: boolean;
 	};
 
 	const slides: Slide[] = [
+		{
+			title: "D&D&Svelte: Svelte Mini-Apps to Enhance Your Tabletop Games",
+			bullets: [],
+			background: dnd,
+			coverSlide: true
+		},
 		{
 			title: "What This Talk Is (and Isn't!)",
 			bullets: [
@@ -97,8 +104,9 @@
 	];
 
 	let currentSlide = $state(1);
+	let slide = $derived(slides[currentSlide - 1]);
 
-	const totalSlides = slides.length + 1; // +1 for the title slide
+	const totalSlides = slides.length; // +1 for the title slide
 
 	function nextSlide() {
 		if (currentSlide < totalSlides) {
@@ -121,64 +129,67 @@
 	}
 </script>
 
-<svelte:window onkeydown={handleKeydown} onclick={nextSlide} />
+<svelte:window onkeydown={handleKeydown} />
 
-<main style={`--bgImage: url(${currentSlide > 1 ? slides[currentSlide - 2].background : dnd})`}>
-	<h1 class:middle={currentSlide === 1}>
-		D&D&Svelte: Svelte mini-apps to enhance your tabletop games
-	</h1>
+<main style={`--bgImage: url(${slide.background})`}>
+	<h1 class:hidden={currentSlide <= 1}>D&D&Svelte</h1>
 	<div class="slide">
-		{#if currentSlide > 1}
-			{@const slide = slides[currentSlide - 2]}
+		{#if slide.coverSlide}
+			<h1>{slide.title}</h1>
+		{:else}
 			<h2>{slide.title}</h2>
-			{#if slide.subtitle}
-				<h3>{slide.subtitle}</h3>
-			{/if}
-			<ul class={slide.subtitle ? "sub-list" : ""}>
-				{#each slide.bullets as bullet, i (i)}
-					<li>
-						{#if typeof bullet === "string"}
-							{bullet}
-						{:else}
-							<a href={resolve(bullet.link)}>{bullet.text}</a>
-						{/if}
-					</li>
-				{/each}
-			</ul>
 		{/if}
+		{#if slide.subtitle}
+			<h3>{slide.subtitle}</h3>
+		{/if}
+		<ul>
+			{#each slide.bullets as bullet, i (i)}
+				<li>
+					{#if typeof bullet === "string"}
+						{bullet}
+					{:else}
+						<a href={resolve(bullet.link)}>{bullet.text}</a>
+					{/if}
+				</li>
+			{/each}
+		</ul>
 	</div>
 	<div class="controls">
-		<button
-			onclick={(e) => {
-				e.stopPropagation();
-				prevSlide();
-			}}
-			disabled={currentSlide === 1}
-		>
-			← Previous
-		</button>
+		<button onclick={prevSlide} disabled={currentSlide === 1}> ← Previous </button>
 		<span class="counter">{currentSlide} / {totalSlides}</span>
-		<button
-			onclick={(e) => {
-				e.stopPropagation();
-				nextSlide();
-			}}
-			disabled={currentSlide === totalSlides}
-		>
-			Next →
-		</button>
+		<button onclick={nextSlide} disabled={currentSlide === totalSlides}> Next → </button>
+	</div>
+	<div class="load-images">
+		<img src={callOfCthulhu} alt="" />
+		<img src={fate} alt="" />
+		<img src={deltaGreen} alt="" />
+		<img src={lancer} alt="" />
 	</div>
 </main>
 
 <style>
+	.load-images {
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+	.load-images img {
+		width: 1px;
+		height: 1px;
+	}
 	main {
-		min-height: 100vh;
+		max-height: 100vh;
+		height: 100vh;
 		display: grid;
 		grid-template-columns: 1fr;
 		grid-template-rows: auto 1fr auto;
 		justify-items: center;
-		align-items: center;
-		padding: 2rem;
+		/* align-items: center; */
+		padding: 1.5em;
 		background-color: black;
 		background-image: var(--bgImage);
 		background-repeat: no-repeat;
@@ -189,73 +200,74 @@
 			system-ui,
 			-apple-system,
 			sans-serif;
+		font-size: 1vw;
 	}
 	.slide {
-		margin: 0 auto;
 		max-width: 800px;
 		width: 100%;
 		padding: 1rem;
+		overflow: auto;
+		display: flex;
+		flex-direction: column;
+		background: #000b;
+		border-radius: 0.5em;
+	}
+	.slide a {
+		color: hotpink;
 	}
 	h1 {
-		font-size: 3rem;
-		margin: 1rem 2rem;
+		font-size: 3em;
+		margin: auto 0;
+		line-height: 1.2;
+		justify-self: baseline;
+		text-align: center;
+	}
+	h1.hidden {
+		visibility: hidden;
+	}
+
+	h2 {
+		font-size: 2.5em;
+		margin: 0 0 1.5em 0;
 		line-height: 1.2;
 		text-align: center;
 	}
-	h1.middle {
-		grid-row: span 2;
-	}
-	h1.middle ~ .slide {
-		display: none;
-	}
-	h2 {
-		font-size: 2.5rem;
-		margin: 0 0 1.5rem 0;
-		line-height: 1.2;
-	}
 
 	h3 {
-		font-size: 2rem;
-		margin: 0 0 1rem 0;
+		font-size: 2em;
+		margin: 0 0 1em 0;
 		line-height: 1.2;
 	}
 
 	ul {
-		font-size: 1.5rem;
+		font-size: 1.5em;
 		line-height: 1.8;
 		margin: 0;
-		padding-left: 2rem;
+		padding-left: 2em;
 	}
 
 	ul li {
-		margin-bottom: 1rem;
-	}
-
-	.sub-list {
-		font-size: 1.2rem;
-		margin-top: 0.5rem;
-		opacity: 0.9;
-	}
-
-	.sub-list li {
-		margin-bottom: 0.5rem;
+		margin-bottom: 1em;
 	}
 
 	.controls {
-		margin-top: 2rem;
+		margin-top: 2em;
 		display: flex;
-		gap: 2rem;
+		gap: 2em;
 		align-items: center;
 		cursor: default;
+		background: #000b;
+		padding: 1em;
+		border-radius: 1em;
 	}
 
 	button {
-		padding: 0.75rem 1.5rem;
-		font-size: 1rem;
+		padding: 0.75em 1.5em;
+		font-size: 1em;
 		background: rgba(255, 255, 255, 0.2);
 		border: 2px solid rgba(255, 255, 255, 0.3);
 		color: white;
-		border-radius: 0.5rem;
+		border-radius: 0.5em;
 		cursor: pointer;
 		transition: all 0.15s;
 		font-weight: 600;
@@ -273,7 +285,7 @@
 	}
 
 	.counter {
-		font-size: 1.2rem;
+		font-size: 1.2em;
 		font-weight: 600;
 		opacity: 0.8;
 	}
