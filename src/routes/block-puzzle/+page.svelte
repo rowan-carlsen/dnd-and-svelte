@@ -160,6 +160,8 @@
 		margin: 0;
 		background-color: #966f33;
 		background-image:
+			linear-gradient(135deg, black calc(2.5rem / sqrt(2)), transparent 10px),
+			linear-gradient(225deg, black calc(2.5rem / sqrt(2) + 4px), transparent 10px),
 			linear-gradient(to right, transparent 95%, black 95%),
 			linear-gradient(95deg, #754224, #552204);
 		background-repeat: repeat-x;
@@ -170,7 +172,9 @@
 	h1 {
 		margin-top: 0;
 		width: max-content;
-		background-color: grey;
+		background-color: #fff;
+		background-image: url("/bg/stone-tile-2.png");
+
 		padding: 0.25em;
 		margin: 0 auto;
 		border: 2px solid black;
@@ -215,6 +219,7 @@
 		grid-column: var(--xPos);
 		grid-row: var(--yPos);
 		background-color: grey;
+		background-image: url("/bg/stone-tile-2.png");
 		background-clip: content-box;
 		display: flex;
 		justify-content: center;
