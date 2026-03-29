@@ -1,4 +1,4 @@
-- Add background for each page of "slides" showcasing a different non-D&D tabletop game - with cool transitions of course
-- incorporate widgets INTO the slides with categories of ideas
 - sharpen up widgets, esp. slide puzzle (better background/textures), shadow puzzle (make another shape?), briefing (add music??), nyc map (add neighborhood labelling, nicer background?)
 - prep anecdotes about games that tie into each widget?
+
+- (optional) have each background flip through a few examples before slide shows up with "final" background

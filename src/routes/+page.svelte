@@ -1,11 +1,6 @@
 <script lang="ts">
 	import { resolve } from "$app/paths";
 	import type { LayoutRouteId } from "./$types";
-	import callOfCthulhu from "$lib/assets/bg/coc.jpg";
-	import dnd from "$lib/assets/bg/d&d.webp";
-	import deltaGreen from "$lib/assets/bg/delta-green.jpg";
-	import fate from "$lib/assets/bg/fate.jpg";
-	import lancer from "$lib/assets/bg/lancer-best.jpeg";
 
 	type InternalRoute = Exclude<LayoutRouteId, null>;
 	type BulletItem = string | { text: string; link: InternalRoute };
@@ -17,6 +12,12 @@
 		background: string;
 		coverSlide?: boolean;
 	};
+
+	const dnd = "/bg/d&d.webp";
+	const callOfCthulhu = "/bg/coc.jpg";
+	const deltaGreen = "/bg/delta-green.jpg";
+	const fate = "/bg/fate.jpg";
+	const lancer = "/bg/lancer-best.jpeg";
 
 	const slides: Slide[] = [
 		{
@@ -105,6 +106,7 @@
 
 	let currentSlide = $state(1);
 	let slide = $derived(slides[currentSlide - 1]);
+	let background = $derived(slide.background);
 
 	const totalSlides = slides.length; // +1 for the title slide
 
@@ -129,66 +131,67 @@
 	}
 </script>
 
+<svelte:head>
+	<link rel="preload" as="image" href="/bg/coc.jpg" />
+	<link rel="preload" as="image" href="/bg/delta-green.jpg" />
+	<link rel="preload" as="image" href="/bg/fate.jpg" />
+	<link rel="preload" as="image" href="/bg/lancer-best.jpeg" />
+</svelte:head>
 <svelte:window onkeydown={handleKeydown} />
 
-<main style={`--bgImage: url(${slide.background})`}>
+<main style={`--bgImage: url(${background})`}>
 	<h1 class:hidden={currentSlide <= 1}>D&D&Svelte</h1>
-	<div class="slide">
-		{#if slide.coverSlide}
-			<h1>{slide.title}</h1>
-		{:else}
-			<h2>{slide.title}</h2>
-		{/if}
-		{#if slide.subtitle}
-			<h3>{slide.subtitle}</h3>
-		{/if}
-		<ul>
-			{#each slide.bullets as bullet, i (i)}
-				<li>
-					{#if typeof bullet === "string"}
-						{bullet}
-					{:else}
-						<a href={resolve(bullet.link)}>{bullet.text}</a>
-					{/if}
-				</li>
-			{/each}
-		</ul>
-	</div>
+	{#key background}
+		<div class="slide">
+			{#if slide.coverSlide}
+				<h1>{slide.title}</h1>
+			{:else}
+				<h2>{slide.title}</h2>
+			{/if}
+			{#if slide.subtitle}
+				<h3>{slide.subtitle}</h3>
+			{/if}
+			<ul>
+				{#each slide.bullets as bullet, i (i)}
+					<li>
+						{#if typeof bullet === "string"}
+							{bullet}
+						{:else}
+							<a target="_blank" href={resolve(bullet.link)}>{bullet.text}</a>
+						{/if}
+					</li>
+				{/each}
+			</ul>
+		</div>
+	{/key}
 	<div class="controls">
 		<button onclick={prevSlide} disabled={currentSlide === 1}> ← Previous </button>
 		<span class="counter">{currentSlide} / {totalSlides}</span>
 		<button onclick={nextSlide} disabled={currentSlide === totalSlides}> Next → </button>
 	</div>
-	<div class="load-images">
-		<img src={callOfCthulhu} alt="" />
-		<img src={fate} alt="" />
-		<img src={deltaGreen} alt="" />
-		<img src={lancer} alt="" />
-	</div>
+	<img class="image-load" src={callOfCthulhu} alt="" width="2160" height="1080" />
+	<img class="image-load" src={deltaGreen} alt="" width="1024" height="512" />
+	<img class="image-load" src={fate} alt="" width="900" height="1350" />
+	<img class="image-load" src={lancer} alt="" width="1920" height="1080" />
 </main>
 
 <style>
-	.load-images {
+	.image-load {
 		position: absolute;
 		top: 0;
 		left: 0;
 		opacity: 0;
-		width: 1px;
-		height: 1px;
-		overflow: hidden;
-	}
-	.load-images img {
-		width: 1px;
-		height: 1px;
+		z-index: -10;
 	}
 	main {
+		position: relative;
 		max-height: 100vh;
 		height: 100vh;
+		width: 100%;
 		display: grid;
 		grid-template-columns: 1fr;
 		grid-template-rows: auto 1fr auto;
 		justify-items: center;
-		/* align-items: center; */
 		padding: 1.5em;
 		background-color: black;
 		background-image: var(--bgImage);
@@ -201,6 +204,7 @@
 			-apple-system,
 			sans-serif;
 		font-size: 1vw;
+		overflow: hidden;
 	}
 	.slide {
 		max-width: 800px;
@@ -211,6 +215,13 @@
 		flex-direction: column;
 		background: #000b;
 		border-radius: 0.5em;
+		opacity: 0;
+		animation: fade-in 1s 2s forwards;
+	}
+	@keyframes fade-in {
+		to {
+			opacity: 1;
+		}
 	}
 	.slide a {
 		color: hotpink;
