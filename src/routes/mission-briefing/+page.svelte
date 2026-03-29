@@ -72,9 +72,9 @@
 <svelte:head><title>Mission Briefing</title></svelte:head>
 
 <main class:visible={ready}>
-	<select>
+	<!-- <select>
 		<option value="Mission 1">Mission 1</option>
-	</select>
+	</select> -->
 	<!-- svelte-ignore a11y_missing_content -->
 	<h1 id="header">&nbsp;</h1>
 	<section id="briefing">
