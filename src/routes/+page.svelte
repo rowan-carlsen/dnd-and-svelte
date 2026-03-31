@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from "$app/paths";
+	import logo from "$lib/assets/favicon.svg";
 	import type { LayoutRouteId } from "./$types";
 
 	type InternalRoute = Exclude<LayoutRouteId, null>;
@@ -21,7 +22,7 @@
 
 	const slides: Slide[] = [
 		{
-			title: "D&D&Svelte: Svelte Mini-Apps to Enhance Your Tabletop Games",
+			title: `D&D&<img class="logo" class="logo" src=${logo} alt="" />velte: Svelte Mini-Apps to Enhance Your Tabletop Games`,
 			bullets: [],
 			background: dnd,
 			coverSlide: true
@@ -30,16 +31,20 @@
 			title: "What This Talk Is (and Isn't!)",
 			bullets: [
 				'More inspiration, less "how-to"',
-				"Made by a Svelte fan, not a Svelte master",
-				'"Toys", props, and accessories, NOT a VTT or essential utility',
-				"Not monetization of your hobby, not the next startup idea, not a hustle!"
+				"Made by a Svelte fan, NOT a Svelte master",
+				`"Toys", props, and accessories, NOT a VTT or essential utility`,
+				"NOT monetization of your hobby, the next startup idea, or a hustle!",
+				"NOT a way to recruit players for my games...unless?"
 			],
 			background: callOfCthulhu
 		},
 		{
 			title: "Why Make Mini-Apps? (And how do they fit on a tabletop??)",
 			bullets: [
-				'Uh...it\'s fun? [We probably all enjoy web dev to some degree, but making banking websites is a lot less "fun" than working on a cool idea you had for your game. And it lets you pretend to be a ]'
+				"Great way to learn or practice web technologies of any kind",
+				`It will engage your players, like any other "prop" - and maybe you as well`,
+				"You can pretend to be a game dev",
+				"Uh...it's fun?"
 			],
 			background: deltaGreen
 		},
@@ -47,7 +52,7 @@
 			title: "OK, But Why Svelte?",
 			bullets: [
 				"Quick, easy spin up for disposable mini-apps",
-				"No need for things Svelte ecosystem is weaker in - like sophisticated UI libraries or data management frameworks",
+				"No need for things Svelte ecosystem is (arguably) weaker in - like sophisticated UI libraries or data management frameworks",
 				"Instant config with adapters like netlify, vercel, static (for GitHub Pages, e.g.)"
 			],
 			background: fate
@@ -61,8 +66,8 @@
 			title: "Ways to Interface With Your Game(s)",
 			subtitle: "Landing Pages!",
 			bullets: [
-				"Think Character Rosters, Lore your players won't read, maps",
-				{ text: "Mission Briefing (TBD desc)", link: "/mission-briefing" }
+				"Think Character Rosters, lore your players won't read, maps, bestiaries",
+				{ text: "Mission Briefing", link: "/mission-briefing" }
 			],
 			background: lancer
 		},
@@ -70,9 +75,10 @@
 			title: "Ways to Interface With Your Game(s)",
 			subtitle: "Puzzles/mini-games!",
 			bullets: [
-				"Keep the scope very small - 5 minutes of interaction is usually enough. This is NOT about getting a great RoI of time spent.",
-				{ text: "Shadow Puzzle (TBD desc)", link: "/shadow-puzzle" },
-				{ text: "Block Puzzle (TBD desc)", link: "/block-puzzle" }
+				"Keep the scope very small - 5 minutes of interaction is usually enough",
+				"You will spend WAY more time planning/designing/creating than your players will playing - must be OK with that",
+				{ text: "Shadow Puzzle", link: "/shadow-puzzle" },
+				{ text: "Block Puzzle", link: "/block-puzzle" }
 			],
 			background: lancer
 		},
@@ -80,13 +86,14 @@
 			title: "Ways to Interface With Your Game(s)",
 			subtitle: "Interactive visuals!",
 			bullets: [
-				"Even tiny interactions are pretty spiffy when you're using your imagination to begin with. Hover effects, anything that feels like a video game",
+				"Players are already using their imaginations - even tiny interactions work wonders.",
+				"Hover effects, buttons that light up - anything that feels like a video game",
 				{
-					text: "By Dim Light (Examine something creepy by torch (or similar) light",
+					text: "By Dim Light",
 					link: "/by-dim-light"
 				},
 				{
-					text: "Mudross Remnants (Map with light hover interactivity)",
+					text: "Ruins of the Empire",
 					link: "/mudross-remnants"
 				}
 			],
@@ -94,11 +101,11 @@
 		},
 		{
 			title: "Ways to Interface With Your Game(s)",
-			subtitle: "(Hard mode) Apps for your players to actually use!",
+			subtitle: "(Hard mode) Apps for your players to actually use?",
 			bullets: [
-				"MUST be mobile first, and may need websockets or at least aggressive polling if there is shared state.",
-				"Aim for a shared tablet instead of each player's phone - phones can be a hazard to player engagement",
-				{ text: "Alt NYC Map (TBD desc)", link: "/alt-nyc-map" }
+				"MUST be mobile first, and may need websockets or at least aggressive polling if there is shared state",
+				"Consider a shared tablet instead of each player's phone - phones can be a hazard to player engagement",
+				{ text: "Urban Fantasy NYC Map", link: "/alt-nyc-map" }
 			],
 			background: lancer
 		}
@@ -136,15 +143,17 @@
 	<link rel="preload" as="image" href="/bg/delta-green.jpg" />
 	<link rel="preload" as="image" href="/bg/fate.jpg" />
 	<link rel="preload" as="image" href="/bg/lancer-best.jpeg" />
+	<title>D&D&Svelte</title>
 </svelte:head>
 <svelte:window onkeydown={handleKeydown} />
 
 <main style={`--bgImage: url(${background})`}>
-	<h1 class:hidden={currentSlide <= 1}>D&D&Svelte</h1>
+	<h1 class:hidden={currentSlide <= 1}>D&D&<img class="logo" src={logo} alt="" />velte</h1>
 	{#key background}
 		<div class="slide">
 			{#if slide.coverSlide}
-				<h1>{slide.title}</h1>
+				<!--  eslint-disable-next-line svelte/no-at-html-tags -->
+				<h1>{@html slide.title}</h1>
 			{:else}
 				<h2>{slide.title}</h2>
 			{/if}
@@ -176,6 +185,10 @@
 </main>
 
 <style>
+	@font-face {
+		font-family: "MrEaves";
+		src: url("/mr-eaves.otf") format("opentype");
+	}
 	.image-load {
 		position: absolute;
 		top: 0;
@@ -207,7 +220,7 @@
 		overflow: hidden;
 	}
 	.slide {
-		max-width: 800px;
+		max-width: 60vw;
 		width: 100%;
 		padding: 1rem;
 		overflow: auto;
@@ -217,6 +230,7 @@
 		border-radius: 0.5em;
 		opacity: 0;
 		animation: fade-in 1s 2s forwards;
+		animation: fade-in 1s 0s forwards;
 	}
 	@keyframes fade-in {
 		to {
@@ -227,6 +241,8 @@
 		color: hotpink;
 	}
 	h1 {
+		font-family: "MrEaves";
+		color: #f70002;
 		font-size: 3em;
 		margin: auto 0;
 		line-height: 1.2;
@@ -235,6 +251,12 @@
 	}
 	h1.hidden {
 		visibility: hidden;
+	}
+	:global(h1 .logo) {
+		width: auto;
+		height: 1em;
+		line-height: 1em;
+		vertical-align: middle;
 	}
 
 	h2 {
