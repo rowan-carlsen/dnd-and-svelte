@@ -1,5 +1,5 @@
 <script>
-	import { resolve } from "$app/paths";
+	import { base, resolve } from "$app/paths";
 </script>
 
 <nav class="mission">
@@ -7,7 +7,7 @@
 		<li><a href={resolve("/mission-briefing")}>MISSION</a></li>
 		<li><a href={resolve("/mission-briefing/crew")}>CREW</a></li>
 		<li>
-			<audio src="/ME2.mp3" autoplay loop muted controls volume={0.5}></audio>
+			<audio src="{base}/ME2.mp3" autoplay loop muted controls volume={0.5}></audio>
 		</li>
 	</ul>
 </nav>

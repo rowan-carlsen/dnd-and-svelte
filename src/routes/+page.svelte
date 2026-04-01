@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { resolve } from "$app/paths";
+	import { base, resolve } from "$app/paths";
 	import logo from "$lib/assets/favicon.svg";
 	import type { LayoutRouteId } from "./$types";
 
@@ -14,11 +14,11 @@
 		coverSlide?: boolean;
 	};
 
-	const dnd = "/bg/d&d.webp";
-	const callOfCthulhu = "/bg/coc.jpg";
-	const deltaGreen = "/bg/delta-green.jpg";
-	const fate = "/bg/fate.jpg";
-	const lancer = "/bg/lancer-best.jpeg";
+	const dnd = `${base}/bg/d&d.webp`;
+	const callOfCthulhu = `${base}/bg/coc.jpg`;
+	const deltaGreen = `${base}/bg/delta-green.jpg`;
+	const fate = `${base}/bg/fate.jpg`;
+	const lancer = `${base}/bg/lancer-best.jpeg`;
 
 	const slides: Slide[] = [
 		{
@@ -139,10 +139,10 @@
 </script>
 
 <svelte:head>
-	<link rel="preload" as="image" href="/bg/coc.jpg" />
-	<link rel="preload" as="image" href="/bg/delta-green.jpg" />
-	<link rel="preload" as="image" href="/bg/fate.jpg" />
-	<link rel="preload" as="image" href="/bg/lancer-best.jpeg" />
+	<link rel="preload" as="image" href={callOfCthulhu} />
+	<link rel="preload" as="image" href={deltaGreen} />
+	<link rel="preload" as="image" href={fate} />
+	<link rel="preload" as="image" href={lancer} />
 	<title>D&D&Svelte</title>
 </svelte:head>
 <svelte:window onkeydown={handleKeydown} />

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from "$app/paths";
 	import { onMount } from "svelte";
 
 	let holder: HTMLElement | undefined = $state();
@@ -22,7 +23,7 @@
 <svelte:head><title>By Dim Light...</title></svelte:head>
 
 <div id="container" class="dim" bind:this={holder}>
-	<img width="1920" height="2194" src="/azathoth.jpg" alt="azathoth" />
+	<img width="1920" height="2194" src="{base}/azathoth.jpg" alt="azathoth" />
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		style={`transform: translate(${moveX}px, ${moveY}px)`}
