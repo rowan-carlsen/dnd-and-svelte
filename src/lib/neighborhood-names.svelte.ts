@@ -870,3 +870,6 @@ export const areaNames: Record<string, { name: string }> = {
 		name: "New Springville"
 	}
 };
+
+const newNames: Record<string, { name: string }> = $state({});
+export { newNames };

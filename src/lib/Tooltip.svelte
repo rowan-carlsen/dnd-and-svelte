@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { areaNames } from "./neighborhood-names";
+	import { areaNames, newNames } from "./neighborhood-names.svelte.ts";
 	const { targetArea }: { targetArea: HTMLElement | undefined } = $props();
 	let areaCode: string | undefined = $derived(targetArea?.dataset.area);
 	let position = $derived.by(() => {
@@ -12,7 +12,7 @@
 </script>
 
 <div class="tooltip" style={`left: ${position[0]}px; top: ${position[1]}px`}>
-	{areaCode ? areaNames[areaCode].name : ""}
+	{areaCode ? (newNames[areaCode] ? newNames[areaCode].name : areaNames[areaCode].name) : ""}
 </div>
 
 <style>
