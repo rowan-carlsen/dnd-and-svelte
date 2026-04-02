@@ -10,6 +10,7 @@
 		title: string;
 		subtitle?: string;
 		bullets: BulletItem[];
+		progressiveReveal?: boolean;
 		background: string;
 		coverSlide?: boolean;
 	};
@@ -36,6 +37,7 @@
 				"NOT monetization of your hobby, the next startup idea, or a hustle!",
 				"NOT a way to recruit players for my games...unless?"
 			],
+			progressiveReveal: true,
 			background: callOfCthulhu
 		},
 		{
@@ -46,6 +48,7 @@
 				"You can pretend to be a game dev",
 				"Uh...it's fun?"
 			],
+			progressiveReveal: true,
 			background: deltaGreen
 		},
 		{
@@ -111,21 +114,33 @@
 		}
 	];
 
-	let currentSlide = $state(1);
-	let slide = $derived(slides[currentSlide - 1]);
+	let currentSlide = $state(0);
+	let currentReveal = $state(0);
+	let slide = $derived(slides[currentSlide]);
+	let isProgressiveSlide = $derived(slide.progressiveReveal);
 	let background = $derived(slide.background);
 
 	const totalSlides = slides.length; // +1 for the title slide
 
 	function nextSlide() {
-		if (currentSlide < totalSlides) {
+		if (isProgressiveSlide && currentReveal < slide.bullets.length - 1) {
+			currentReveal++;
+			return;
+		}
+		if (currentSlide < totalSlides - 1) {
 			currentSlide++;
+			currentReveal = 0;
 		}
 	}
 
 	function prevSlide() {
-		if (currentSlide > 1) {
+		if (isProgressiveSlide && currentReveal > 0) {
+			currentReveal--;
+			return;
+		}
+		if (currentSlide > 0) {
 			currentSlide--;
+			currentReveal = 0;
 		}
 	}
 
@@ -148,7 +163,7 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <main style={`--bgImage: url(${background})`}>
-	<h1 class:hidden={currentSlide <= 1}>D&D&<img class="logo" src={logo} alt="" />velte</h1>
+	<h1 class:hidden={currentSlide < 1}>D&D&<img class="logo" src={logo} alt="" />velte</h1>
 	{#key background}
 		<div class="slide">
 			{#if slide.coverSlide}
@@ -162,7 +177,7 @@
 			{/if}
 			<ul>
 				{#each slide.bullets as bullet, i (i)}
-					<li>
+					<li class:hidden={isProgressiveSlide && currentReveal < i}>
 						{#if typeof bullet === "string"}
 							{bullet}
 						{:else}
@@ -174,9 +189,9 @@
 		</div>
 	{/key}
 	<div class="controls">
-		<button onclick={prevSlide} disabled={currentSlide === 1}> ← Previous </button>
-		<span class="counter">{currentSlide} / {totalSlides}</span>
-		<button onclick={nextSlide} disabled={currentSlide === totalSlides}> Next → </button>
+		<button onclick={prevSlide} disabled={currentSlide < 1}> ← Previous </button>
+		<span class="counter">{currentSlide + 1} / {totalSlides}</span>
+		<button onclick={nextSlide} disabled={currentSlide >= totalSlides - 1}> Next → </button>
 	</div>
 	<img class="image-load" src={callOfCthulhu} alt="" width="2160" height="1080" />
 	<img class="image-load" src={deltaGreen} alt="" width="1024" height="512" />
@@ -230,7 +245,6 @@
 		border-radius: 0.5em;
 		opacity: 0;
 		animation: fade-in 1s 2s forwards;
-		animation: fade-in 1s 0s forwards;
 	}
 	@keyframes fade-in {
 		to {
@@ -249,7 +263,7 @@
 		justify-self: baseline;
 		text-align: center;
 	}
-	h1.hidden {
+	.hidden {
 		visibility: hidden;
 	}
 	:global(h1 .logo) {
